@@ -16,6 +16,7 @@ bool ganhouJogo(int &quemGanhou, string arr[LINHAS][COLUNAS]);
 
 int main() {
     string tabuleiro[LINHAS][COLUNAS];
+    string pecaAJogar;
     int quemJoga = 1; // 1-X- 1ºjoga // 2-O- 2ºjoga
     int quemGanhou = 0;
     int colunaJogar = 0;
@@ -24,8 +25,29 @@ int main() {
 
     do {
         mostraTabuleiro(tabuleiro);
+
+        if(quemJoga == 1) {
+            pecaAJogar = "X";
+            cout << "\nJogador#1(X)\n";
+            jogou = true;
+
+        } else if(quemJoga == 2) {
+            pecaAJogar = "O";
+            cout << "\nJogador#2(O)\n";
+            jogou = true;
+        }
+
         colunaJogar = pedePecaJogador();
         jogou = colocaPecaTabuleiro("X", colunaJogar, tabuleiro);
+
+        if (jogou = true) {
+
+            if(quemJoga == 1) {
+                quemJoga = 2;
+            } else {
+                quemJoga = 1;
+            }
+        }
 
     } while (!ganhouJogo(quemGanhou, tabuleiro) && !tabulerioCheio(tabuleiro));
 
@@ -49,17 +71,20 @@ void mostraTabuleiro(string arr[LINHAS][COLUNAS]) {
     cout << "============= 4 EM LINHA =============\n\n";
     int num;
 
-    for (int i = 0; i < LINHAS; i++) {
-
-        num = 6;
-        num = num - i;
-        cout << num;
-
+    for (int i = LINHAS - 1; i >= 0; i--) {
+        cout << i + 1;
         for (int j = 0; j < COLUNAS; j++) {
             cout << " |"<< arr[i][j] << "|";
         }
         cout << endl;
     }
+
+    cout << " ";
+    for (int j = 0; j < COLUNAS; j++) {
+        cout << " |"<< "-" << "|";
+    }
+
+    cout << endl;
     cout << " ";
     for (int j = 0; j < COLUNAS; j++) {
         cout << " |"<< j + 1 << "|";
@@ -74,26 +99,38 @@ void mostraTabuleiro(string arr[LINHAS][COLUNAS]) {
 }
 
 int pedePecaJogador(){
-
     int colunaEscolhida;
+    do {
     cout << "Coluna(1-9): ";
     cin >> colunaEscolhida;
+
+    if (colunaEscolhida < 1 || colunaEscolhida > 9) {
+        cout << "Jogada invalida!!!\n";
+    }
+    } while (colunaEscolhida < 1 || colunaEscolhida > 9);
 
     return colunaEscolhida;
 }
 
 bool colocaPecaTabuleiro(string peca, int coluna, string arr[LINHAS][COLUNAS]){
 
-    int linha = 5;
+    int linha = 0;
     coluna--;
 
-    if (arr[linha][coluna] == " ") {
-        arr[linha][coluna] = peca;
+    for (int i = -1; i <= 6; i++) {
+        if (arr[linha + i][coluna] == " ") {
+            arr[linha + i][coluna] = peca;
+            return true;
+        }
     }
+
     return false;
 }
 
 bool tabulerioCheio(string arr[LINHAS][COLUNAS]){
+
+
+
     return false;
 }
 
